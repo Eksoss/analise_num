@@ -18,7 +18,9 @@ class Simpson:
             raise "a >= b"
         
         if not isinstance(self, int):
-            raise "n is not integer"
+            print("n is not integer, modifying to int")
+            self.n = int(self.n)
+            self.validate()
         elif self.n <= 3:
             raise "invalid n, n is too small"
         elif self.n%2 != 0:
