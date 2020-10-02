@@ -14,10 +14,10 @@ class Simpson:
         self.XI = None
 
     def validate(self):
-        if self.a >= self.b;
+        if self.a >= self.b:
             raise "a >= b"
         
-        if not isinstance(self, int):
+        if not isinstance(self.n, int):
             print("n is not integer, modifying to int")
             self.n = int(self.n)
             self.validate()
