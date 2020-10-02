@@ -31,8 +31,8 @@ class Simpson:
         self.a = a
         self.b = b
         self.n = n
-        self.h = (b - a)/self.n
         self.validate()
+        self.h = (b - a)/self.n
 
         self.X = np.linspace(self.a, self.b, self.n)[1:-1]
         
