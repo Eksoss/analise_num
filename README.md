@@ -6,7 +6,7 @@
     
     - activate
     
-    Linux: source venv/Scripts/activate
+    Linux: source venv/bin/activate
     Windows: venv\Scripts\activate
     
     - install requirements
