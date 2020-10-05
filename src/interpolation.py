@@ -3,6 +3,7 @@ import numpy as np
 class BaseLagrange:
     def __init__(self, x, y):
         self.x = np.array(x)
+        self.left, self.right = self.x.min(), self.x.max()
         self.y = np.array(y)
         self.integrity = False
         self.base = []
@@ -12,6 +13,9 @@ class BaseLagrange:
     def check_integrity(self):
         if self.x.shape == self.y.shape:
             self.integrity = True
+
+    def within(self, x):
+        return x >= self.left and x <= self.right
 
     def create_base(self):
         """
@@ -23,9 +27,9 @@ class BaseLagrange:
         
     def __call__(self, x):
         if not self.integrity:
-            return None
+            return np.nan
         if isinstance(x, (list, np.ndarray)):
-            return np.array( [np.sum(self.y * self.base(xi)) for xi in x] )
+            return np.array( [np.sum(self.y * self.base(xi)) if self.within(xi) else np.nan for xi in x] )
         return np.sum(self.y * self.base(x))
 
 
