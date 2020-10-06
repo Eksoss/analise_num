@@ -19,10 +19,10 @@
 
     - importing
     
-    from src.integration import Simpson
+    from src.integration import Integrate
     
     f = lambda x: -4 + 3*x + x**2
-    F = Simpson(f)
+    F = Integrate(f)
     
     - integrating from a to b
     
@@ -33,4 +33,9 @@
     
     n = 1e8
     integrated_value = F(a, b, n)
+
+    - setting an especific method, default is simpson
+
+    integrated_value = F(a, b, method='trapezoidal')
+    integrated_value = F(a, b, method='midpoint')
     

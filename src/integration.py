@@ -1,6 +1,6 @@
 import numpy as np
 
-class Simpson:
+class Integrate:
     def __init__(self, func):
         self.func = func
         self.a = None
@@ -21,13 +21,44 @@ class Simpson:
             print("n is not integer, modifying to int")
             self.n = int(self.n)
             self.validate()
-        elif self.n <= 3:
-            raise "invalid n, n is too small"
-        elif self.n%2 != 0:
-            self.n -= 1
+        if self.n%2 != 0:
+            self.n += 1
             print("n is not even, using n = %d"%self.n)
+        if (self.b - self.a)/self.n > 0.5:
+            raise "invalid h, h is too big"
+        
+    def midpoint(self, a, b, n=10000):
+        self.a = a
+        self.b = b
+        self.n = n + 2
+        self.validate()
+        self.h = (b - a)/self.n
+
+        self.X = np.linspace(self.a, self.b, self.n)
+
+        self.XI1 = np.nansum(self.func(self.X[1::2]))
+        
+        self.XI = 2*self.h*self.XI1
+
+        return self.XI
+    
+    def trapezoidal(self, a, b, n=10000):
+        self.a = a
+        self.b = b
+        self.n = n
+        self.validate()
+        self.h = (b - a)/self.n
+
+        self.X = np.linspace(self.a, self.b, self.n)[1:-1]
+        
+        self.XI0 = self.func(a) + self.func(b)
+        self.XI1 = np.nansum(self.func(self.X))
+        
+        self.XI = self.h/2*(self.XI0 + 2*self.XI1)
+
+        return self.XI
             
-    def __call__(self, a, b, n=10000):
+    def simpson(self, a, b, n=10000):
         self.a = a
         self.b = b
         self.n = n
@@ -43,3 +74,9 @@ class Simpson:
         self.XI = self.h*(self.XI0 + 2*self.XI2 + 4*self.XI1)/3
 
         return self.XI
+
+    def __call__(self, a, b, n=10000, method='simpson'):
+        return getattr(self, method)(a, b, n)
+
+
+    
