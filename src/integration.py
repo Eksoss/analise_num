@@ -76,7 +76,10 @@ class Integrate:
         return self.XI
 
     def __call__(self, a, b, n=10000, method='simpson'):
-        return getattr(self, method)(a, b, n)
+        try:
+            return getattr(self, method)(a, b, n)
+        except:
+            raise 'invalid method %s'%method
 
 
     
