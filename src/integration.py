@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.special import roots_legendre, legendre
 
 class Integrate:
     def __init__(self, func):
@@ -75,9 +76,16 @@ class Integrate:
 
         return self.XI
 
-    def __call__(self, a, b, n=10000, method='simpson'):
+    def gauss_quad(self, a, b, n=5):
+        xi, ci = roots_legendre(n)
+        local_func = lambda x: self.func(((b - a)*x + (b + a))/2) * (b - a)/2
+        return local_func(xi).dot(ci) # integration = <f(roots), weights>
+        
+
+    def __call__(self, a, b, n=None, method='simpson'):
         try:
-            return getattr(self, method)(a, b, n)
+            args = (n, ) if n is not None else ()
+            return getattr(self, method)(a, b, *args)
         except:
             raise 'invalid method %s'%method
 

@@ -1,15 +1,23 @@
 import numpy as np
 
-from src.integration import Simpson
+from src.integration import Integrate
 
 f = lambda x: 3 + 3*x + 4*x**2
-F = Simpson(f)
+F = Integrate(f)
 
 a, b = 0, 4
-res = F(a, b)
 
 print('\n### Simpson integration')
-print(res)
+print(F(a, b, method='simpson'))
+
+print('\n### Midpoint integration')
+print(F(a, b, method='midpoint'))
+
+print('\n### Trapezoidal integration')
+print(F(a, b, method='trapezoidal'))
+
+print('\n### Gauss Quadrature integration')
+print(F(a, b, method='gauss_quad'))
 
 
 from src.splines import ClampedCubicSpline, NaturalCubicSpline
